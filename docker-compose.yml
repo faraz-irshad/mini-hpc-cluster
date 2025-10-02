@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  master:
+    image: ubuntu:22.04
+    container_name: master-node
+    hostname: master
+    stdin_open: true
+    tty: true
+    networks:
+      - hpcnet
+    command: sleep infinity
+
+  worker1:
+    image: ubuntu:22.04
+    container_name: worker-node-1
+    hostname: worker1
+    stdin_open: true
+    tty: true
+    networks:
+      - hpcnet
+    command: sleep infinity
+
+  worker2:
+    image: ubuntu:22.04
+    container_name: worker-node-2
+    hostname: worker2
+    stdin_open: true
+    tty: true
+    networks:
+      - hpcnet
+    command: sleep infinity
+
+networks:
+  hpcnet:
+    driver: bridge
