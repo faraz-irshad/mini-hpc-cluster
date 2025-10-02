@@ -7,6 +7,7 @@ A Docker-based High-Performance Computing (HPC) environment for learning distrib
 ## Features
 
 * **Distributed Architecture:** 1 master + 2 worker nodes with health checks
+* **Fault Tolerance:** Auto-restart policies and recovery monitoring
 * **Job Management:** Automated job submission with logging and queue system
 * **Monitoring:** Prometheus & Grafana integration, real-time job monitoring
 * **PyTorch Support:** Distributed training with Gloo backend
@@ -39,14 +40,17 @@ make submit
 ### Basic Commands
 
 ```bash
-make build     # Build containers
-make up        # Start cluster
-make down      # Stop cluster
-make submit    # Submit jobs
-make status    # Check cluster status
-make logs      # View recent logs
-make monitor   # Real-time monitoring
-make clean     # Clean everything
+make build          # Build containers
+make up             # Start cluster
+make down           # Stop cluster
+make submit         # Submit jobs
+make status         # Check cluster status
+make logs           # View recent logs
+make monitor        # Real-time monitoring
+make health         # Check cluster health
+make test-failure   # Test fault tolerance
+make watch-recovery # Watch recovery status
+make clean          # Clean everything
 ```
 
 ### Manual Commands
@@ -86,9 +90,12 @@ mini-hpc/
 ├── monitor_jobs.py         # Monitoring tool
 ├── job_queue.py            # Job queue system
 ├── metrics_exporter.py     # Metrics collection
+├── simulate_failure.py     # Fault tolerance testing
+├── recovery_monitor.py     # Recovery monitoring
 ├── setup_grafana.sh        # Grafana setup script
 ├── Makefile                # Command shortcuts
 ├── METRICS_GUIDE.md        # Metrics documentation
+├── FAULT_TOLERANCE.md      # Fault tolerance guide
 └── README.md
 ```
 
@@ -173,12 +180,32 @@ make submit
 
 ---
 
+## Fault Tolerance
+
+The cluster includes automatic recovery mechanisms:
+
+```bash
+# Check cluster health
+make health
+
+# Test fault tolerance by killing a node
+make test-failure
+
+# Watch recovery in real-time
+make watch-recovery
+```
+
+See [FAULT_TOLERANCE.md](FAULT_TOLERANCE.md) for detailed documentation.
+
+---
+
 ## Notes
 
 * Educational tool for learning HPC concepts
 * Not for production use
 * CPU-only PyTorch (lightweight)
 * Logs saved per node per job
+* Auto-restart on node failures
 
 ---
 
