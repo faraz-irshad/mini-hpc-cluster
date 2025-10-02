@@ -1,9 +1,15 @@
+# Logs
 *.log
 logs/
+hpc_cluster.log
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
+
+# Job queue
 job_queue.json
-hpc_cluster.log
+
+# System
 .DS_Store
-screenshots/README.txt
