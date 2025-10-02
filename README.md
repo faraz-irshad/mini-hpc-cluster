@@ -123,16 +123,9 @@ cat logs/worker-node-1_my_job.log
 
 ### Live Dashboard
 
-<!-- Add your Grafana screenshot here:
 ![HPC Cluster Monitoring](screenshots/grafana-dashboard.png)
--->
 
-To add monitoring dashboard:
-1. Take screenshot of Grafana dashboard
-2. Save as `screenshots/grafana-dashboard.png`
-3. Uncomment the image line above
-
-Real-time CPU and memory metrics available at http://localhost:3000
+Real-time CPU and memory metrics across all nodes during distributed job execution.
 
 ---
 
