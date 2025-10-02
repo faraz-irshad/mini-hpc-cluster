@@ -112,9 +112,3 @@ Hello from the worker!
 * Designed for **learning, experimentation, and demonstration**. The goal is modest: understanding HPC concepts in a small environment.
 
 ---
-
-## License
-
-This project is open for personal learning and demonstration purposes.
-
----
