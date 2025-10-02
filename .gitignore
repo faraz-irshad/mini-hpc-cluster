@@ -6,3 +6,4 @@ __pycache__/
 job_queue.json
 hpc_cluster.log
 .DS_Store
+screenshots/README.txt

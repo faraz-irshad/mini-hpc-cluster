@@ -2,6 +2,9 @@ global:
   scrape_interval: 5s
 
 scrape_configs:
-  - job_name: 'workers'
+  - job_name: 'hpc-nodes'
     static_configs:
-      - targets: ['worker-node-1:9100','worker-node-2:9100']
+      - targets: 
+        - 'master-node:9100'
+        - 'worker-node-1:9100'
+        - 'worker-node-2:9100'

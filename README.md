@@ -121,6 +121,27 @@ cat logs/worker-node-1_my_job.log
 * **Job Logs:** `logs/` directory
 * **Cluster Log:** `hpc_cluster.log`
 
+### Live Dashboard
+
+![HPC Cluster Monitoring](screenshots/grafana-dashboard.png)
+
+Real-time CPU and memory metrics across all nodes during distributed job execution.
+
+---
+
+### Grafana Queries
+
+```promql
+# CPU usage per node
+node_cpu_percent
+
+# Memory usage percentage
+node_memory_percent
+
+# Memory used in GB
+node_memory_MemUsed_bytes / 1024 / 1024 / 1024
+```
+
 ---
 
 ## Example Jobs
