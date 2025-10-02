@@ -102,7 +102,3 @@ Recovery time: 15-30 seconds
 ## Documentation
 
 - [FAULT_TOLERANCE.md](FAULT_TOLERANCE.md) - Fault tolerance guide
-
-## License
-
-MIT
