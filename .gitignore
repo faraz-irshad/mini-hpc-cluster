@@ -1,0 +1,8 @@
+*.log
+logs/
+__pycache__/
+*.pyc
+*.pyo
+job_queue.json
+hpc_cluster.log
+.DS_Store

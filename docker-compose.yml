@@ -2,34 +2,46 @@ version: "3.9"
 
 services:
   master:
-    image: ubuntu:22.04
+    build: .
     container_name: master-node
     hostname: master
     stdin_open: true
     tty: true
     networks:
       - hpcnet
-    command: sleep infinity
+    healthcheck:
+      test: ["CMD", "python3", "--version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   worker1:
-    image: ubuntu:22.04
+    build: .
     container_name: worker-node-1
     hostname: worker1
     stdin_open: true
     tty: true
     networks:
       - hpcnet
-    command: sleep infinity
+    healthcheck:
+      test: ["CMD", "python3", "--version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   worker2:
-    image: ubuntu:22.04
+    build: .
     container_name: worker-node-2
     hostname: worker2
     stdin_open: true
     tty: true
     networks:
       - hpcnet
-    command: sleep infinity
+    healthcheck:
+      test: ["CMD", "python3", "--version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   prometheus:
     image: prom/prometheus
