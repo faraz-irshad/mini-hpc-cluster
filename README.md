@@ -43,7 +43,7 @@ This project demonstrates a very small-scale High-Performance Computing (HPC) en
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/<your-username>/mini-hpc-cluster.git
+git clone https://github.com/faraz-irshad/mini-hpc-cluster.git
 cd mini-hpc-cluster
 ```
 
