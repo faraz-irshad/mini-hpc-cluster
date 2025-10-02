@@ -76,13 +76,19 @@ mini-hpc/
 │   ├── benchmark.py        # Performance benchmark
 │   └── train_mnist_distributed.py  # Distributed training
 ├── logs/                    # Job execution logs
+├── screenshots/             # Dashboard screenshots
+│   └── grafana-dashboard.png
 ├── Dockerfile              # Container image
 ├── docker-compose.yml      # Cluster configuration
 ├── requirements.txt        # Python dependencies
+├── prometheus.yml          # Prometheus configuration
 ├── submit_job.py           # Job submission script
 ├── monitor_jobs.py         # Monitoring tool
 ├── job_queue.py            # Job queue system
+├── metrics_exporter.py     # Metrics collection
+├── setup_grafana.sh        # Grafana setup script
 ├── Makefile                # Command shortcuts
+├── METRICS_GUIDE.md        # Metrics documentation
 └── README.md
 ```
 
