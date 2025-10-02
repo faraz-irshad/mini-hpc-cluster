@@ -152,9 +152,12 @@ node_memory_MemUsed_bytes / 1024 / 1024 / 1024
 
 ## Example Jobs
 
-### Simple Job
+### Simple Job (hello.py)
 ```python
-print("Hello from the worker!")
+import os
+rank = os.environ.get("RANK", "0")
+node = os.uname().nodename
+print(f"[Rank {rank}] Hello from {node}!")
 ```
 
 ### Benchmark
