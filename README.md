@@ -1,114 +1,157 @@
 # Mini HPC Cluster Simulation
 
-This project demonstrates a very small-scale High-Performance Computing (HPC) environment using Docker containers. It is intended as a **learning and demonstration tool** to explore how HPC clusters manage jobs, distribute workloads, and handle basic resource management.
+A Docker-based High-Performance Computing (HPC) environment for learning distributed computing concepts. Features job submission, monitoring, and distributed PyTorch training.
 
 ---
 
 ## Features
 
-* **Master and Worker Nodes:**
-
-  * One master node to manage jobs.
-  * Two worker nodes that execute jobs submitted by the master.
-
-* **Python Job Submission System:**
-
-  * Submit Python scripts (jobs) from the master node to worker nodes.
-  * Round-robin assignment distributes jobs across available workers.
-  * Collects and displays output from each worker in the master console.
-
-* **Docker-Based Simulation:**
-
-  * Each node runs in its own isolated Docker container.
-  * Containers communicate over a private network to simulate a real HPC cluster.
-
-* **Extensible Setup:**
-
-  * Designed to allow adding monitoring tools (Prometheus, Grafana) or automated configuration (Ansible) as enhancements.
-  * Simple structure makes it easy to experiment with different job types or more nodes.
+* **Distributed Architecture:** 1 master + 2 worker nodes with health checks
+* **Job Management:** Automated job submission with logging and queue system
+* **Monitoring:** Prometheus & Grafana integration, real-time job monitoring
+* **PyTorch Support:** Distributed training with Gloo backend
+* **Easy Management:** Makefile commands for common operations
 
 ---
 
-## Installation
-
-### Requirements
-
-* Pop!_OS / Ubuntu or compatible Linux distribution
-* Docker & Docker Compose
-* Python 3
-* Optional: Ansible for automation
-
-### Setup
-
-1. Clone the repository:
+## Quick Start
 
 ```bash
 git clone https://github.com/faraz-irshad/mini-hpc-cluster.git
 cd mini-hpc-cluster
-```
-
-2. Launch the cluster:
-
-```bash
-docker compose up -d
-```
-
-3. Verify containers are running:
-
-```bash
-docker ps
+make build
+make up
+make submit
 ```
 
 ---
 
-## How to Use
+## Requirements
 
-1. Add your Python jobs to the `jobs/` folder. Each script should be a standalone Python file.
+* Docker & Docker Compose
+* Python 3
+* Linux/macOS (tested on Pop!_OS/Ubuntu)
 
-2. Submit jobs to the cluster:
+---
+
+## Usage
+
+### Basic Commands
 
 ```bash
-python3 submit_job.py
+make build     # Build containers
+make up        # Start cluster
+make down      # Stop cluster
+make submit    # Submit jobs
+make status    # Check cluster status
+make logs      # View recent logs
+make monitor   # Real-time monitoring
+make clean     # Clean everything
 ```
 
-3. The master node will distribute the jobs to worker nodes, execute them, and print output in the console.
-
-4. To stop the cluster:
+### Manual Commands
 
 ```bash
-docker compose down
+docker compose up -d              # Start cluster
+python3 submit_job.py             # Submit jobs
+python3 monitor_jobs.py           # Check status
+docker compose down               # Stop cluster
+```
+
+### Restart Cluster
+
+```bash
+make down && make up              # Quick restart
+make clean && make build && make up  # Full rebuild
 ```
 
 ---
 
-## Example
+## Project Structure
 
-Adding a simple job:
+```
+mini-hpc/
+├── jobs/                    # Job scripts
+│   ├── hello.py            # Simple test job
+│   ├── benchmark.py        # Performance benchmark
+│   └── train_mnist_distributed.py  # Distributed training
+├── logs/                    # Job execution logs
+├── Dockerfile              # Container image
+├── docker-compose.yml      # Cluster configuration
+├── requirements.txt        # Python dependencies
+├── submit_job.py           # Job submission script
+├── monitor_jobs.py         # Monitoring tool
+├── job_queue.py            # Job queue system
+├── Makefile                # Command shortcuts
+└── README.md
+```
+
+---
+
+## Adding Jobs
+
+Create a Python script in `jobs/` folder:
 
 ```python
-# jobs/hello.py
+# jobs/my_job.py
+import os
+print(f"Running on {os.uname().nodename}")
+```
+
+Submit with:
+
+```bash
+make submit
+```
+
+View logs:
+
+```bash
+make logs
+# or
+cat logs/worker-node-1_my_job.log
+```
+
+---
+
+## Monitoring
+
+* **Prometheus:** http://localhost:9090
+* **Grafana:** http://localhost:3000 (admin/admin)
+* **Job Logs:** `logs/` directory
+* **Cluster Log:** `hpc_cluster.log`
+
+---
+
+## Example Jobs
+
+### Simple Job
+```python
 print("Hello from the worker!")
 ```
 
-Submit it with:
-
+### Benchmark
 ```bash
-python3 submit_job.py
+make submit  # Runs benchmark.py on all nodes
 ```
 
-Output example:
-
-```
-[INFO] Sending hello.py to worker-node-1...
-[INFO] Running hello.py on worker-node-1...
-Hello from the worker!
+### Distributed Training
+```bash
+# Automatically runs train_mnist_distributed.py across cluster
+make submit
 ```
 
 ---
 
 ## Notes
 
-* This project is **a simplified simulation**. It does not replicate the full performance or scale of production HPC clusters.
-* Designed for **learning, experimentation, and demonstration**. The goal is modest: understanding HPC concepts in a small environment.
+* Educational tool for learning HPC concepts
+* Not for production use
+* CPU-only PyTorch (lightweight)
+* Logs saved per node per job
 
 ---
+
+## License
+
+MIT
