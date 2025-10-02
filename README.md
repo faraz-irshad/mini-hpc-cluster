@@ -102,7 +102,6 @@ Recovery time: 15-30 seconds
 ## Documentation
 
 - [FAULT_TOLERANCE.md](FAULT_TOLERANCE.md) - Fault tolerance guide
-- [METRICS_GUIDE.md](METRICS_GUIDE.md) - Metrics documentation
 
 ## License
 
