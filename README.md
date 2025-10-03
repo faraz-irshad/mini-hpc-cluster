@@ -102,19 +102,6 @@ Jobs execute sequentially. View queue status:
 make queue
 ```
 
-## Network Architecture
-
-- Bridge network: 172.18.0.0/16
-- PyTorch distributed: TCP port 12355 (Gloo backend)
-- Metrics: HTTP port 9100 per node
-- DNS: Docker internal resolution
-
-Communication flow:
-1. Master node listens on port 12355
-2. Workers connect to master
-3. Gradients synchronized via AllReduce
-4. Prometheus scrapes metrics every 5s
-
 ## Fault Tolerance
 
 Health checks run every 30s. Failed nodes restart automatically.
@@ -125,13 +112,6 @@ make health
 docker stop worker-node-1
 make watch-recovery  # Observe 15-30s recovery
 ```
-
-## Security
-
-- Network isolation via Docker bridge
-- Prometheus and Grafana exposed on host (ports 9090, 3000)
-- Containers run as root (development setup)
-- Not production-ready
 
 ## ML Lifecycle
 
@@ -189,14 +169,6 @@ For distributed training, use PyTorch DDP with environment variables:
 - `MASTER_ADDR`: Master hostname
 - `MASTER_PORT`: Communication port (12355)
 
-## Limitations
-
-- Single-host only (not multi-node)
-- Sequential job execution
-- CPU-only (no GPU support)
-- No job cancellation once running
-- Basic authentication (not production-ready)
-
 ## Skills Demonstrated
 
 - HPC cluster management
@@ -207,36 +179,9 @@ For distributed training, use PyTorch DDP with environment variables:
 - Job scheduling and queuing
 - ML pipeline (data → train → validate)
 
-## Troubleshooting
-
-**Containers not starting:**
-```bash
-docker compose logs master
-```
-
-**Network issues:**
-```bash
-docker network inspect mini-hpc_hpcnet
-```
-
-**Job failures:**
-```bash
-cat logs/master-node_<job>.log
-```
-
-**Health check failures:**
-```bash
-make health
-docker inspect master-node | grep Health
-```
-
 ## Future Improvements
 
 - Multi-host cluster support
 - GPU support with NCCL backend
 - Parallel job execution
-- Job dependencies (DAG)
 - Web UI for queue management
-- TLS encryption
-- Integration with MLflow
-- SLURM-like scheduler
