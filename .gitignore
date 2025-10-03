@@ -13,3 +13,8 @@ job_queue.json
 
 # System
 .DS_Store
+
+# Data and Models
+data/MNIST/
+models/*.pth
+models/*.pt

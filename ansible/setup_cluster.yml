@@ -1,0 +1,15 @@
+---
+- name: Configure HPC Cluster
+  hosts: hpc_cluster
+  gather_facts: no
+  tasks:
+    - name: Create jobs directory
+      raw: mkdir -p /root/jobs
+      
+    - name: Verify metrics exporter is running
+      raw: pgrep -f metrics_exporter.py
+      register: metrics_check
+      ignore_errors: yes
+      
+    - name: Show node status
+      raw: echo "Node $(hostname) configured"

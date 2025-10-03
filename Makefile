@@ -1,4 +1,4 @@
-.PHONY: build up down status logs clean submit monitor health test-failure watch-recovery
+.PHONY: build up down status logs clean submit monitor health watch-recovery prepare-data validate-model queue ansible-setup
 
 build:
 	docker compose build
@@ -13,7 +13,7 @@ status:
 	docker compose ps
 
 logs:
-	python3 monitor_jobs.py
+	python3 scripts/monitor_jobs.py
 
 clean:
 	docker compose down -v
@@ -21,19 +21,28 @@ clean:
 	rm -rf logs/*.log
 
 submit:
-	python3 submit_job.py
+	python3 scripts/submit_job.py
 
 monitor:
-	watch -n 2 python3 monitor_jobs.py
+	watch -n 2 python3 scripts/monitor_jobs.py
 
 health:
-	python3 recovery_monitor.py
-
-test-failure:
-	@echo "Testing fault tolerance..."
-	@echo "Available nodes: master-node, worker-node-1, worker-node-2"
-	@read -p "Enter node name to kill: " node; \
-	python3 simulate_failure.py $$node
+	python3 scripts/recovery_monitor.py
 
 watch-recovery:
-	watch -n 5 python3 recovery_monitor.py
+	watch -n 5 python3 scripts/recovery_monitor.py
+
+ansible-setup:
+	ansible-playbook -i ansible/inventory.yml ansible/setup_cluster.yml
+
+prepare-data:
+	@echo "Preparing ML dataset..."
+	python3 jobs/prepare_mnist.py
+
+validate-model:
+	@echo "Validating trained model..."
+	python3 jobs/validate_mnist.py
+
+queue:
+	@echo "Job Queue Status:"
+	python3 scripts/view_queue.py

@@ -50,7 +50,7 @@ def main():
 
     # Data
     transform = transforms.Compose([transforms.ToTensor()])
-    dataset = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+    dataset = torchvision.datasets.MNIST(root='/root/data', train=True, download=True, transform=transform)
 
     # Each worker gets data
     train_sampler = torch.utils.data.distributed.DistributedSampler(
@@ -76,6 +76,17 @@ def main():
             optimizer.step()
             if batch % 200 == 0:
                 print(f"[Rank {rank}] Epoch {epoch} Batch {batch} Loss {loss.item():.4f}")
+        
+        # Save checkpoint every 5 epochs (only on master)
+        if rank == 0 and epoch % 5 == 0:
+            checkpoint_path = f"/root/models/mnist_epoch_{epoch}.pth"
+            torch.save(model.state_dict(), checkpoint_path)
+            print(f"[Rank {rank}] Saved checkpoint: {checkpoint_path}")
+
+    # Save final model (only on master)
+    if rank == 0:
+        torch.save(model.state_dict(), "/root/models/mnist_final.pth")
+        print(f"[Rank {rank}] Saved final model: /root/models/mnist_final.pth")
 
     cleanup()
     print(f"[Rank {rank}] Training finished.")

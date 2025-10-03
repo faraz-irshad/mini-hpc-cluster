@@ -20,8 +20,9 @@ class JobQueue:
             json.dump(self.jobs, f, indent=2)
     
     def add_job(self, job_file, priority=1):
+        job_id = f"job_{int(time.time())}_{len(self.jobs)}"
         job = {
-            "id": f"job_{int(time.time())}",
+            "id": job_id,
             "file": str(job_file),
             "priority": priority,
             "status": "queued",

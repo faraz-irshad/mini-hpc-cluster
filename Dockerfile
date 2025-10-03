@@ -12,6 +12,6 @@ RUN pip3 install numpy psutil prometheus-client
 
 WORKDIR /root
 
-COPY metrics_exporter.py /root/
+COPY scripts/metrics_exporter.py /root/
 
 CMD ["sh", "-c", "python3 /root/metrics_exporter.py & sleep infinity"]

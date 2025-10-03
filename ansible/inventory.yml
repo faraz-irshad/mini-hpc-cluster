@@ -1,0 +1,14 @@
+all:
+  children:
+    hpc_cluster:
+      children:
+        master_nodes:
+          hosts:
+            master-node:
+              ansible_connection: docker
+        worker_nodes:
+          hosts:
+            worker-node-1:
+              ansible_connection: docker
+            worker-node-2:
+              ansible_connection: docker

@@ -7,9 +7,12 @@ services:
     hostname: master
     stdin_open: true
     tty: true
+    volumes:
+      - ./data:/root/data
+      - ./models:/root/models
     networks:
       - hpcnet
-    restart: unless-stopped
+    restart: always
     healthcheck:
       test: ["CMD", "python3", "-c", "import os; exit(0 if os.path.exists('/tmp') else 1)"]
       interval: 30s
@@ -23,9 +26,12 @@ services:
     hostname: worker1
     stdin_open: true
     tty: true
+    volumes:
+      - ./data:/root/data
+      - ./models:/root/models
     networks:
       - hpcnet
-    restart: unless-stopped
+    restart: always
     healthcheck:
       test: ["CMD", "python3", "-c", "import os; exit(0 if os.path.exists('/tmp') else 1)"]
       interval: 30s
@@ -39,9 +45,12 @@ services:
     hostname: worker2
     stdin_open: true
     tty: true
+    volumes:
+      - ./data:/root/data
+      - ./models:/root/models
     networks:
       - hpcnet
-    restart: unless-stopped
+    restart: always
     healthcheck:
       test: ["CMD", "python3", "-c", "import os; exit(0 if os.path.exists('/tmp') else 1)"]
       interval: 30s
@@ -53,7 +62,7 @@ services:
     image: prom/prometheus
     container_name: prometheus
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     networks:
