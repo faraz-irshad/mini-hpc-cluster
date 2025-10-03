@@ -67,6 +67,9 @@ make validate-model # Validate trained model
 
 ```
 mini-hpc/
+├── ansible/                 # Ansible playbooks
+│   ├── inventory.yml
+│   └── setup_cluster.yml
 ├── config/                  # Configuration files
 │   └── prometheus.yml
 ├── scripts/                 # Python scripts
@@ -126,9 +129,9 @@ make watch-recovery  # Observe 15-30s recovery
 ## Security
 
 - Network isolation via Docker bridge
-- No exposed ports on compute nodes
-- Token-based authentication available
-- Non-privileged containers
+- Prometheus and Grafana exposed on host (ports 9090, 3000)
+- Containers run as root (development setup)
+- Not production-ready
 
 ## ML Lifecycle
 
